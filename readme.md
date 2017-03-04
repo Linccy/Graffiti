@@ -1,4 +1,4 @@
-# AutoFitTextView
+# GraffitiView
 
 Android绘图板，使用fresco、支持网络图片，支持手势缩放、undo、redo、清除、旋转、保存图片等操作。
 
