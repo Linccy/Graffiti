@@ -38,7 +38,7 @@ public class GraffitiView extends RelativeLayout {
     private static final float MAX_SCALE = 10.0F;
     private static final float MIN_SCALE = 1.0f;
     private static final float BORDER = 10f;
-    private static final long TO_CANVAS_TIME = 30;//触发绘图板onTouch的触摸时间
+    private static final long TO_CANVAS_TIME = ViewConfiguration.getTapTimeout();//触发绘图板onTouch的触摸时间
     private float[] mMatrixValues = new float[9];
     private float mGraffitiX, mGraffitiY;
     private float mOldDistance;
@@ -54,7 +54,7 @@ public class GraffitiView extends RelativeLayout {
     private int lastHashcode = 0;
     private OnGraffitiViewOnClickListener mOnGraffitiViewOnClick;
     private OnLoadFinishListener mLoadFinishListener;
-    private volatile Object lock = new Object();
+    private final Object lock = new Object();
     //    private boolean startScale = false;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -101,7 +101,6 @@ public class GraffitiView extends RelativeLayout {
     protected void init(String url) {
 
         Bitmap bitmap;
-        Drawable drawable;
         ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(Uri.parse(url))
                 .setResizeOptions(new ResizeOptions(GraffitiConfig.screenWidth, GraffitiConfig.screenHeight))
                 .build();
@@ -118,7 +117,7 @@ public class GraffitiView extends RelativeLayout {
                 }
                 mLoadFinishListener.OnLoadFinish();
             } catch (Exception e) {
-
+                e.printStackTrace();
             } finally {
                 closeableImageRef.close();
             }
@@ -126,7 +125,7 @@ public class GraffitiView extends RelativeLayout {
             dataSource.subscribe(new BaseBitmapDataSubscriber() {
                 @Override
                 protected void onNewResultImpl(Bitmap bitmap) {
-                    //FIXME run in workerThread
+                    // run in workerThread
                     synchronized (lock) {
                         setCutoutImage(bitmap.copy(bitmap.getConfig(), false));
                     }
@@ -246,7 +245,7 @@ public class GraffitiView extends RelativeLayout {
                 mIsClick = false;
                 long on_move_time = System.currentTimeMillis();
                 if (on_move_time - mOnACTION_DOWN_TIME <=
-                ViewConfiguration.getTapTimeout()) {
+                        TO_CANVAS_TIME) {
                     mIsClick = true;
                     return true;
                 }
@@ -291,8 +290,8 @@ public class GraffitiView extends RelativeLayout {
 
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+    protected void onSizeChanged(int w, int h, int oldW, int oldH) {
+        super.onSizeChanged(w, h, oldW, oldH);
 
         float bitmapWidth = (float) mCutoutImage.getWidth();
         float bitmapHeight = (float) mCutoutImage.getHeight();
@@ -382,13 +381,10 @@ public class GraffitiView extends RelativeLayout {
     }
 
     public boolean isChanged() {
-        if (mLineView != null && lastHashcode != mLineView.getLastHashCode()) {
-            return true;
-        }
-        return false;
+        return mLineView != null && lastHashcode != mLineView.getLastHashCode();
     }
 
-    public void setChangedOver(){
+    public void setChangedOver() {
         lastHashcode = mLineView.getLastHashCode();
     }
 
@@ -437,8 +433,7 @@ public class GraffitiView extends RelativeLayout {
         if (event.getPointerCount() != 2) return null;
         float mx = (event.getX(0) + event.getX(1)) / 2;
         float my = (event.getY(0) + event.getY(1)) / 2;
-        PointF middle = new PointF(mx, my);
-        return middle;
+        return new PointF(mx, my);
     }
 
     /**
@@ -455,8 +450,7 @@ public class GraffitiView extends RelativeLayout {
     public static PointF middleOfTwoFinger(MotionEvent event) {
         float mx = (event.getX(0) + event.getX(1)) / 2;
         float my = (event.getY(0) + event.getY(1)) / 2;
-        PointF middle = new PointF(mx, my);
-        return middle;
+        return new PointF(mx, my);
     }
 
     @Override
