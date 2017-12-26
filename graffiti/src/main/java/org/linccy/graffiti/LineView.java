@@ -53,7 +53,7 @@ public class LineView extends View {
 
     public LineView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        mFinishedPaths = new ArrayList<MarkPath>();
+        mFinishedPaths = new ArrayList<>();
         setBackgroundColor(Color.TRANSPARENT);
     }
 
@@ -169,14 +169,14 @@ public class LineView extends View {
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                if (mCurrentPath == null || mIsDoubleTouch == true) break;
+                if (mCurrentPath == null || mIsDoubleTouch) break;
                 mCurrentPath.addMarkPointToPath(mCurrentPoint);
                 postInvalidateDelayed(40);
 //			invalidate();
                 break;
 
             case MotionEvent.ACTION_UP:
-                if (mCurrentPath != null && mIsDoubleTouch != true) {
+                if (mCurrentPath != null && !mIsDoubleTouch) {
                     mCurrentPath.addMarkPointToPath(mCurrentPoint);
                     //如果是点击了撤销后，撤销的笔画移出栈，并将新的笔画压入栈
                     if (mPathCount < mFinishedPaths.size()) {
@@ -199,8 +199,8 @@ public class LineView extends View {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+    protected void onSizeChanged(int w, int h, int oldW, int oldH) {
+        super.onSizeChanged(w, h, oldW, oldH);
         mBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         mTempCanvas = new Canvas(mBitmap);
         mPaint = new Paint();
@@ -292,7 +292,7 @@ public class LineView extends View {
         }
 
 
-        public static enum MarkType {
+        public enum MarkType {
             PEN_1,
             PEN_2,
             PEN_3,
@@ -308,7 +308,7 @@ public class LineView extends View {
         public static final float NORMAL_LINE_WIDTH = (float) 15.0f;
 
 
-        private static enum LineType {
+        private enum LineType {
             MARK,
             BCRESULT,
         }

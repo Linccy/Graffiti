@@ -39,7 +39,7 @@ public class GraffitiView extends RelativeLayout {
     private static final float MIN_SCALE = 1.0f;
     private static final float BORDER = 10f;
     private static final long TO_CANVAS_TIME = 30;//触发绘图板onTouch的触摸时间
-    private float[] mMatrixValus = new float[9];
+    private float[] mMatrixValues = new float[9];
     private float mGraffitiX, mGraffitiY;
     private float mOldDistance;
     private boolean mIsDrag = false;
@@ -280,8 +280,8 @@ public class GraffitiView extends RelativeLayout {
                     }
                 }
                 if (!mIsDrag) return mLineView.onTouchEvent(event);
-                mShowView.getMatrix().getValues(mMatrixValus);
-                mLineView.setScaleAndOffset(mShowView.getScaleX(), mMatrixValus[2], mMatrixValus[5]);
+                mShowView.getMatrix().getValues(mMatrixValues);
+                mLineView.setScaleAndOffset(mShowView.getScaleX(), mMatrixValues[2], mMatrixValues[5]);
                 mIsDrag = false;
                 break;
         }
@@ -360,21 +360,21 @@ public class GraffitiView extends RelativeLayout {
     private PointF offsetGraffiti() {
         PointF offset = new PointF(0, 0);
         if (mShowView.getScaleX() > 1) {
-            mShowView.getMatrix().getValues(mMatrixValus);
-            if (mMatrixValus[2] > -(mGraffitiX * (mShowView.getScaleX() - 1))) {
-                offset.x = -(mMatrixValus[2] + mGraffitiX * (mShowView.getScaleX() - 1));
+            mShowView.getMatrix().getValues(mMatrixValues);
+            if (mMatrixValues[2] > -(mGraffitiX * (mShowView.getScaleX() - 1))) {
+                offset.x = -(mMatrixValues[2] + mGraffitiX * (mShowView.getScaleX() - 1));
             }
 
-            if (mMatrixValus[2] + mShowView.getWidth() * mShowView.getScaleX() - mGraffitiX * (mShowView.getScaleX() - 1) < getWidth()) {
-                offset.x = getWidth() - (mMatrixValus[2] + mShowView.getWidth() * mShowView.getScaleX() - mGraffitiX * (mShowView.getScaleX() - 1));
+            if (mMatrixValues[2] + mShowView.getWidth() * mShowView.getScaleX() - mGraffitiX * (mShowView.getScaleX() - 1) < getWidth()) {
+                offset.x = getWidth() - (mMatrixValues[2] + mShowView.getWidth() * mShowView.getScaleX() - mGraffitiX * (mShowView.getScaleX() - 1));
             }
 
-            if (mMatrixValus[5] > -(mGraffitiY * (mShowView.getScaleY() - 1))) {
-                offset.y = -(mMatrixValus[5] + mGraffitiY * (mShowView.getScaleY() - 1));
+            if (mMatrixValues[5] > -(mGraffitiY * (mShowView.getScaleY() - 1))) {
+                offset.y = -(mMatrixValues[5] + mGraffitiY * (mShowView.getScaleY() - 1));
             }
 
-            if (mMatrixValus[5] + mShowView.getHeight() * mShowView.getScaleY() - mGraffitiY * (mShowView.getScaleY() - 1) < getHeight()) {
-                offset.y = getHeight() - (mMatrixValus[5] + mShowView.getHeight() * mShowView.getScaleY() - mGraffitiY * (mShowView.getScaleY() - 1));
+            if (mMatrixValues[5] + mShowView.getHeight() * mShowView.getScaleY() - mGraffitiY * (mShowView.getScaleY() - 1) < getHeight()) {
+                offset.y = getHeight() - (mMatrixValues[5] + mShowView.getHeight() * mShowView.getScaleY() - mGraffitiY * (mShowView.getScaleY() - 1));
             }
         }
 

@@ -6,17 +6,15 @@ import android.util.DisplayMetrics;
 import java.io.File;
 
 /**
- * @author：linchenxi on 2017/3/3 13:32
- * @description:
+ * @author linccy on 2017/3/3 13:32
+ * 绘图板配置类
  */
 public class GraffitiConfig {
     public static String APP_TEMP_FILE_PATH;
     public static int screenHeight;
     public static int screenWidth;
-    private static Context sContext;
 
     public static void init(Context context) {
-        sContext = context;
         //设置屏幕宽高
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         screenWidth = dm.widthPixels;
