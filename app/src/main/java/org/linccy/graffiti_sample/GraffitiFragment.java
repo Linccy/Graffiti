@@ -56,7 +56,7 @@ public class GraffitiFragment extends android.support.v4.app.Fragment implements
         mGraffitiView.setOnGraffitiViewOnClick(onGraffitiViewOnClickListener);
         mGraffitiView.setId(R.id.graffitiview);     //setId，当页面被移除后恢复时GraffitiView调用保存状态
         mGraffitiView.setSaveEnabled(true);
-        checkView = (FrameLayout) mRootView.findViewById(R.id.graffit);
+        checkView = (FrameLayout) mRootView.findViewById(R.id.graffiti);
         return mRootView;
     }
 

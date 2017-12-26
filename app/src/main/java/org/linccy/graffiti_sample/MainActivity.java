@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bundle.putString("url", url);
         fragment = new GraffitiFragment();
         fragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().add(R.id.graffit_content, fragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.graffiti_content, fragment).commit();
     }
 
     @Override
